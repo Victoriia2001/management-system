@@ -95,7 +95,7 @@ func (rr *RoomsRepository) UpdateRoom(r models.Room, id int) error {
 
 	Room := models.Room{}
 
-	result, err := rr.db.Queryx("SELECT * FROM rooms WHERE id= $1", r.ID)
+	result, err := rr.db.Queryx("SELECT * FROM rooms WHERE id= $1", id)
 	if err != nil {
 		return err
 	}
@@ -107,7 +107,7 @@ func (rr *RoomsRepository) UpdateRoom(r models.Room, id int) error {
 		}
 	}
 
-	_, err = rr.db.Exec("UPDATE rooms SET room = $1, modified_at= CURRENT_TIMESTAMP WHERE id = $2", r.Room, r.ID)
+	_, err = rr.db.Exec("UPDATE rooms SET room = $1, modified_at= CURRENT_TIMESTAMP WHERE id = $2", r.Room, id)
 	if err != nil {
 		return QueryError{QueryErrorMessage, err}
 	}

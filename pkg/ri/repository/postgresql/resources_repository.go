@@ -94,7 +94,7 @@ func (rr *ResourcesRepository) UpdateResource(r models.Resources, id int) error 
 
 	Resource := models.Resources{}
 
-	result, err := rr.db.Queryx("SELECT * FROM resources WHERE id= $1", r.ID)
+	result, err := rr.db.Queryx("SELECT * FROM resources WHERE id= $1", id)
 	if err != nil {
 		return err
 	}
@@ -106,7 +106,7 @@ func (rr *ResourcesRepository) UpdateResource(r models.Resources, id int) error 
 		}
 	}
 
-	_, err = rr.db.Exec("UPDATE resources SET resourceName = $1, resourceDescription = $2, modified_at= CURRENT_TIMESTAMP WHERE id = $3", r.ResourceName, r.ResourceDescription, r.ID)
+	_, err = rr.db.Exec("UPDATE resources SET resourcename = $1, resourcedescription = $2, modified_at= CURRENT_TIMESTAMP WHERE id = $3", r.ResourceName, r.ResourceDescription, id)
 	if err != nil {
 		return QueryError{QueryErrorMessage, err}
 	}
