@@ -22,7 +22,7 @@ func NewResourcesRepository(db sqlx.Ext) *ResourcesRepository {
 func (rr *ResourcesRepository) InsertResource(r models.Resources) error {
 	var err error
 
-	result, err := rr.db.Queryx("INSERT INTO resources (resourceName, resourceDescription, modified_at) VALUES ($1, $2, CURRENT_TIMESTAMP) RETURNING id", r.ResourceName, r.ResourceDescription)
+	result, err := rr.db.Queryx("INSERT INTO resources (resource_name, resource_description, modified_at) VALUES ($1, $2, CURRENT_TIMESTAMP) RETURNING id", r.ResourceName, r.ResourceDescription)
 	if err != nil {
 		return QueryError{QueryErrorMessage, err}
 	}
@@ -106,7 +106,7 @@ func (rr *ResourcesRepository) UpdateResource(r models.Resources, id int) error 
 		}
 	}
 
-	_, err = rr.db.Exec("UPDATE resources SET resourcename = $1, resourcedescription = $2, modified_at= CURRENT_TIMESTAMP WHERE id = $3", r.ResourceName, r.ResourceDescription, id)
+	_, err = rr.db.Exec("UPDATE resources SET resource_name = $1, resource_description = $2, modified_at= CURRENT_TIMESTAMP WHERE id = $3", r.ResourceName, r.ResourceDescription, id)
 	if err != nil {
 		return QueryError{QueryErrorMessage, err}
 	}
@@ -122,24 +122,6 @@ func (rr *ResourcesRepository) DeleteResource(ResourceID int) error {
 	}
 
 	return nil
-}
-
-func (rr *ResourcesRepository) GetResourceByName(name string) (*models.Resources, error) {
-	r := models.Resources{}
-
-	result, err := rr.db.Queryx("SELECT * FROM resources WHERE resourceName= $1", name)
-	if err != nil {
-		return nil, QueryError{QueryErrorMessage, err}
-	}
-
-	for result.Next() {
-		err = result.StructScan(&r)
-		if err != nil {
-			return nil, err
-		}
-	}
-
-	return ToResource(r)
 }
 
 func ToResource(r models.Resources) (*models.Resources, error) {

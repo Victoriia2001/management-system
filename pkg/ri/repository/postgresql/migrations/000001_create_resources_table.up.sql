@@ -2,8 +2,8 @@ BEGIN;
 
 CREATE TABLE IF NOT EXISTS resources (
     id  SERIAL PRIMARY KEY,
-    resourceName VARCHAR(255) NOT NULL,
-    resourceDescription VARCHAR(1024) NOT NULL,
+    resource_name VARCHAR(255) NOT NULL,
+    resource_description VARCHAR(1024) NOT NULL,
     modified_at timestamptz NOT NULL
 );
 

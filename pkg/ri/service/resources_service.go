@@ -59,13 +59,3 @@ func (service *ResourcesService) DeleteResource(ResourceID int) (err error) {
 
 	return nil
 }
-
-func (service *ResourcesService) GetResourceByName(name string) (resource *models.Resources, err error) {
-	resource, err = service.ResourcesRepository.GetResourceByName(name)
-	if err != nil {
-		return nil, err
-	}
-
-	return resource, nil
-}
-
